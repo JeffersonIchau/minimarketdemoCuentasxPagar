@@ -42,33 +42,50 @@ public class ManagerSeguridades {
     public void inicializarDemo() throws Exception {
     	mAuditoria.mostrarLog(getClass(), "inicializarDemo", "Inicializacion de bdd demo.");
     	List<SegUsuario> listaUsuarios=mDAO.findAll(SegUsuario.class);
+    	int idSegUsuarioAdmin=0;
+    	
+    	boolean existeAdministrador=false;
     	for(SegUsuario u:listaUsuarios) {
-    		mAuditoria.mostrarLog(getClass(), "inicializarDemo", "Eliminacion de usuario "+u.getCorreo()+" "+u.getIdSegUsuario());
-    		mDAO.eliminar(SegUsuario.class, u.getIdSegUsuario());
+    		mAuditoria.mostrarLog(getClass(), "inicializarDemo", "Info de usuario "+u.getCorreo()+" "+u.getIdSegUsuario());
+    		//Se considera al usuario 1 como administrador: 
+    		if(u.getIdSegUsuario()==1) {
+    			existeAdministrador=true;
+    			idSegUsuarioAdmin=1;
+    			System.out.println("Ya existe un usuario administrador (con id usuario 1)");
+    		}
     	}
+    	
+    	
     	//creacion del usuario administrador:
-		SegUsuario administrador=new SegUsuario();
-		administrador.setActivo(true);
-		administrador.setApellidos("admin");
-		administrador.setClave("admin");
-		administrador.setCorreo("admin@minimarketdemo.com");
-		administrador.setNombres("admin");
-		administrador.setCodigo("admin");
-		mDAO.insertar(administrador);
-		mAuditoria.mostrarLog(getClass(), "inicializarDemo", "Usuario administrador creado.");
+    	if(existeAdministrador==false) {
+			SegUsuario administrador=new SegUsuario();
+			administrador.setActivo(true);
+			administrador.setApellidos("admin");
+			administrador.setClave("admin");
+			administrador.setCorreo("admin@minimarketdemo.com");
+			administrador.setNombres("admin");
+			administrador.setCodigo("admin");
+			mDAO.insertar(administrador);
+			idSegUsuarioAdmin=administrador.getIdSegUsuario();
+			mAuditoria.mostrarLog(getClass(), "inicializarDemo", "Usuario administrador creado (id : "+idSegUsuarioAdmin);
+    	}
 		//inicializacion de modulos:
 		SegModulo modulo=new SegModulo();
+		int idSegModuloSeguridades=0;
+		int idSegModuloAuditoria=0;
 		modulo.setNombreModulo("Seguridades");
-		modulo.setRutaAcceso("seguridades");
+		modulo.setRutaAcceso("seguridades/menu");
 		mDAO.insertar(modulo);
+		idSegModuloSeguridades=modulo.getIdSegModulo();
 		modulo=new SegModulo();
 		modulo.setNombreModulo("Auditoría");
-		modulo.setRutaAcceso("auditoria");
+		modulo.setRutaAcceso("auditoria/menu");
 		mDAO.insertar(modulo);
+		idSegModuloAuditoria=modulo.getIdSegModulo();
 		mAuditoria.mostrarLog(getClass(), "inicializarDemo", "Módulos creados.");
 		//asignacion de accesos:
-		asignarModulo(1, 1);
-		asignarModulo(1, 2);
+		asignarModulo(idSegUsuarioAdmin, idSegModuloSeguridades);
+		asignarModulo(idSegUsuarioAdmin, idSegModuloAuditoria);
 		mAuditoria.mostrarLog(getClass(), "inicializarDemo", "Inicializacion de bdd demo terminada.");
     }
     
@@ -148,8 +165,10 @@ public class ManagerSeguridades {
     
     public void eliminarUsuario(int idSegUsuario) throws Exception {
     	SegUsuario usuario=(SegUsuario) mDAO.findById(SegUsuario.class, idSegUsuario);
+    	if(usuario.getIdSegUsuario()==1)
+    		throw new Exception("No se puede eliminar el usuario administrador.");
     	if(usuario.getSegAsignacions().size()>0)
-    		throw new Exception("No se puede elmininar el usuario porque tiene asignaciones de módulos.");
+    		throw new Exception("No se puede elimininar el usuario porque tiene asignaciones de módulos.");
     	mDAO.eliminar(SegUsuario.class, usuario.getIdSegUsuario());
     }
     
