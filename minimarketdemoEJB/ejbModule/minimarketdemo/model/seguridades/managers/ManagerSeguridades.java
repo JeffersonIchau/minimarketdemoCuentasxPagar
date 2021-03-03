@@ -158,6 +158,8 @@ public class ManagerSeguridades {
     
     public void activarDesactivarUsuario(int idSegUsuario) throws Exception {
     	SegUsuario usuario=(SegUsuario) mDAO.findById(SegUsuario.class, idSegUsuario);
+    	if(idSegUsuario==1)
+    		throw new Exception("No se puede desactivar al usuario administrador.");
     	usuario.setActivo(!usuario.getActivo());
     	System.out.println("activar/desactivar "+usuario.getActivo());
     	mDAO.actualizar(usuario);
@@ -174,6 +176,25 @@ public class ManagerSeguridades {
     
     public List<SegModulo> findAllModulos(){
     	return mDAO.findAll(SegModulo.class, "nombreModulo");
+    }
+    
+    public SegModulo insertarModulo(SegModulo nuevoModulo) throws Exception {
+    	SegModulo modulo=new SegModulo();
+    	modulo.setNombreModulo(nuevoModulo.getNombreModulo());
+    	modulo.setRutaAcceso(nuevoModulo.getRutaAcceso());
+    	mDAO.insertar(modulo);
+    	return modulo;
+    }
+    
+    public void eliminarModulo(int idSegModulo) throws Exception {
+    	mDAO.eliminar(SegModulo.class, idSegModulo);
+    }
+    
+    public void actualizarModulo(SegModulo edicionModulo) throws Exception {
+    	SegModulo modulo=(SegModulo) mDAO.findById(SegModulo.class, edicionModulo.getIdSegModulo());
+    	modulo.setNombreModulo(edicionModulo.getNombreModulo());
+    	modulo.setRutaAcceso(edicionModulo.getRutaAcceso());
+    	mDAO.actualizar(modulo);
     }
     
     public List<SegAsignacion> findAsignacionByUsuario(int idSegUsuario){
