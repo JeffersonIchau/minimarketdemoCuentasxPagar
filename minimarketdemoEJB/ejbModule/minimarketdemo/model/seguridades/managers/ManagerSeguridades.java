@@ -141,6 +141,10 @@ public class ManagerSeguridades {
     	return mDAO.findAll(SegUsuario.class, "apellidos");
     }
     
+    public SegUsuario findByIdSegUsuario(int idSegUsuario) throws Exception {
+    	return (SegUsuario) mDAO.findById(SegUsuario.class, idSegUsuario);
+    }
+    
     public void insertarUsuario(SegUsuario nuevoUsuario) throws Exception {
     	nuevoUsuario.setCodigo("n/a");
     	mDAO.insertar(nuevoUsuario);
