@@ -42,25 +42,28 @@
 				update="@form"></p:commandButton>
 			<p:dataTable value="#{beanTHumanoRolPagos.listaRolCabeceras}"
 				var="cab">
-				<p:column headerText="ID">
+				<p:column headerText="ID" style="width:40px">
 					<h:outputText value="#{cab.idThmRolCabecera}" />
 				</p:column>
 				<p:column headerText="PERIODO">
 					<h:outputText value="#{cab.periodoRol}" />
 				</p:column>
+				<p:column headerText="NOMBRES">
+					<h:outputText value="#{cab.thmEmpleado.segUsuario.apellidos}" />
+				</p:column>
 				<p:column headerText="CARGO">
 					<h:outputText value="#{cab.nombreCargo}" />
 				</p:column>
-				<p:column headerText="INGRESOS">
+				<p:column headerText="INGRESOS" style="text-align:right">
 					<h:outputText value="#{cab.subtotalIngresos}" />
 				</p:column>
-				<p:column headerText="INGRESOS ADICIONALES">
+				<p:column headerText="INGRESOS ADICIONALES" style="text-align:right">
 					<h:outputText value="#{cab.subtotalIngresosAdicionales}" />
 				</p:column>
-				<p:column headerText="EGRESOS">
+				<p:column headerText="EGRESOS" style="text-align:right">
 					<h:outputText value="#{cab.subtotalEgresos}" />
 				</p:column>
-				<p:column headerText="TOTAL">
+				<p:column headerText="TOTAL" style="text-align:right">
 					<h:outputText value="#{cab.total}" />
 				</p:column>
 			</p:dataTable>

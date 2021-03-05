@@ -54,11 +54,11 @@
 		</p:overlayPanel>
 		<h:form id="formDatos">
 			<p:dataTable emptyMessage="No hay registros aún." value="#{beanTHumanoEmpleados.listaEmpleados}" var="e">
-				<p:column headerText="ID">
+				<p:column headerText="ID" style="width:40px">
 					<h:outputText value="#{e.idThmEmpleado}" />
 				</p:column>
 				<p:column headerText="NOMBRE EMPLEADO">
-					<h:outputText value="#{e.segUsuario.apellidos}" />
+					<h:outputText value="#{e.segUsuario.apellidos} #{e.segUsuario.nombres}" />
 				</p:column>
 				<p:column headerText="CARGO">
 					<h:outputText value="#{e.thmCargo.nombreCargo}" />

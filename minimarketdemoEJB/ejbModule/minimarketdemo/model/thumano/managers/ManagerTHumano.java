@@ -107,7 +107,7 @@ public class ManagerTHumano {
 		det.setOrden(2);
 		det.setThmRolCabecera(cab);
 		det.setTipoDetalle("IN");
-		det.setValor(new BigDecimal(emp.getHorasExtra()*emp.getThmCargo().getRemuneracionMensual().doubleValue()/emp.getHorasTrabajadas()));
+		det.setValor(new BigDecimal(emp.getHorasExtra()*emp.getThmCargo().getRemuneracionMensual().doubleValue()/emp.getHorasTrabajadas()*INCREMENTO_HEXTRA));
 		detalles.add(det);
 		subtotal+=det.getValor().doubleValue();
 		
