@@ -66,10 +66,25 @@
 				<p:column headerText="TOTAL" style="text-align:right">
 					<h:outputText value="#{cab.total}" />
 				</p:column>
+				<p:column headerText="REPORTE">
+					<p:commandButton icon="pi pi-search" title="reporte"
+						id="cmdReporte" />
+					<p:overlayPanel for="cmdReporte" showCloseIcon="true"
+						style="width:350px">
+
+						<p:dataTable value="#{cab.thmRolDetalles}" var="det">
+							<p:column headerText="Concepto">
+								<h:outputText value="#{det.descripcion}" />
+							</p:column>
+							<p:column style="text-align:right;width:60px" headerText="Valor">
+								<h:outputText value="#{det.valor}" />
+							</p:column>
+						</p:dataTable>
+
+					</p:overlayPanel>
+				</p:column>
 			</p:dataTable>
 		</h:form>
-
 	</p:panel>
-
 </body>
 </html>
