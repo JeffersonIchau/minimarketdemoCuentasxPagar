@@ -62,5 +62,9 @@ public class ManagerAuditoria {
     	return q.getResultList();
     	
     }
+    
+    public void eliminarBitacora() {
+    	
+    }
 
 }
